@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
-
-// TODO: wrap everything in Auth0
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Auth0Provider
+
+    domain={process.env.REACT_APP_USER_BOMAIN}
+    clientId={process.env.REACT_APP_CLINT_ID}
+    redirectUri={window.location.origin}
+>
+  <App />
+  
+</Auth0Provider>,
+</React.StrictMode>,
+document.getElementById('root')
 );
