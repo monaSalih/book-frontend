@@ -6,7 +6,7 @@ import AddBook from './AddBook.js'
 import { Card, Row, Button } from 'react-bootstrap';
 import { withAuth0 } from '@auth0/auth0-react';
 import './BestBooks.css';
-import Update from './Update.js';
+// import Update from './Update.js';
 
 class MyFavoriteBooks extends React.Component {
   constructor(props) {
@@ -14,8 +14,8 @@ class MyFavoriteBooks extends React.Component {
     this.state = {
       showBook: [],
       authUser: {},
-      selectedBook:{},
-      showUpdateForm:false
+      // selectedBook:{},
+      // showUpdateForm:false
 
     }
   }
@@ -39,60 +39,63 @@ class MyFavoriteBooks extends React.Component {
   }
   ///////////////****add new book */
 
-  // newBook = async (event) => {
-  //   event.preventDefault();
-  //   console.log('done add');
+  newBook = async (event) => {
+    event.preventDefault();
+    console.log('done add');
 
-  //   let bookObj = {
-  //     title: event.target.title.value,
-  //     description: event.target.description.value,
-  //     email: this.state.authUser
-  //   }
+    let bookObj = {
+      title: event.target.title.value,
+      description: event.target.description.value,
+      email: this.state.authUser
+    }
     
-  //   console.log("bookObj", bookObj);
-  //   // let addToLibrary=await axios.get(`${process.env.REACT_APP_BACKEND_URL}bookObj`,{params:bookObj})
-  //   let addToLibrary = await axios.post(`${process.env.REACT_APP_BACKEND_URL}bookObj`, {params:bookObj})
-
-  //   this.setState({
-  //     showBook: addToLibrary.data
-  //   })
-  // }
+    console.log("bookObj", bookObj);
+    // let addToLibrary=await axios.get(`${process.env.REACT_APP_BACKEND_URL}bookObj`,{params:bookObj})
+    let addToLibrary = await axios.post(`${process.env.REACT_APP_BACKEND_URL}bookObj`, {params:bookObj})
+///how write query
+    this.setState({
+      showBook: addToLibrary.data
+    })
+  }
 
   ////////////////////***delete spesific book */
 
-  // deletBook = async (idBook) => {
-  //   let deletUrl = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}deletObj/${idBook}?emailUser=${this.state.authUser}`)
-  //   this.setState({
-  //     showBook: deletUrl.data
-  //   })
-  //   // window.location.reload()
-  // }
+  deletBook = async (idBook) => {
+    console.log("hi");
+    let deletUrl = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}deletObj/${idBook}?emailUser=${this.props.auth0.user.email}`)
+    console.log(`${process.env.REACT_APP_BACKEND_URL}deletObj/${idBook}?emailUser=${this.state.authUser}`);
+console.log(deletUrl);
+    this.setState({
+      showBook: deletUrl.data
+    })
+    // window.location.reload()
+  }
   //////////////////////**update */
 
 
   /////////**udating */
-  updateData=async(bookId)=>{
-    let chooseBook=this.state.showBook.find(book=>{
-      return book._id===  bookId  })
-      console.log(chooseBook);
-      this.setState({
-        selectedBook:chooseBook,
-        showUpdateForm:true
-      })
-  }
-  updataInfo=async(event)=>{
-    event.preventDefaulr();
-    let sendData={
-      titleBook:event.target.bTitle.value,
-   descripBook:event.target.bdescrip.value,
-   emailBook:this.state.authUser
-  }
-  let bookID=this.state.selectedBook._id
-   let bookData=await axios.put(`${process.env.REACT_APP_BACKEND_URL}updateBook/${bookID}`,sendData)
-   this.setState({
-        showBook: bookData.data
-      })
-  }
+  // updateData=async(bookId)=>{
+  //   let chooseBook=this.state.showBook.find(book=>{
+  //     return book._id===  bookId  })
+  //     console.log(chooseBook);
+  //     this.setState({
+  //       selectedBook:chooseBook,
+  //       showUpdateForm:true
+  //     })
+  // }
+  // updataInfo=async(event)=>{
+  //   event.preventDefaulr();
+  //   let sendData={
+  //     titleBook:event.target.bTitle.value,
+  //  descripBook:event.target.bdescrip.value,
+  //  emailBook:this.state.authUser
+  // }
+  // let bookID=this.state.selectedBook._id
+  //  let bookData=await axios.put(`${process.env.REACT_APP_BACKEND_URL}updateBook/${bookID}`,sendData)
+  //  this.setState({
+  //       showBook: bookData.data
+  //     })
+  // }
 
   render() {
     const { user, isAuthenticated } = this.props.auth0;
@@ -126,11 +129,11 @@ class MyFavoriteBooks extends React.Component {
 
         </Row>
         {/* pop up form */}
-        {this.state.showUpdateForm && 
+        {/* {this.state.showUpdateForm && 
         <Update
         bookUpDate={this.state.selectedBook}
         />}
-      
+       */}
       </Jumbotron>
     )
 
