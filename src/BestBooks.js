@@ -80,6 +80,19 @@ class MyFavoriteBooks extends React.Component {
         showUpdateForm:true
       })
   }
+  updataInfo=async(event)=>{
+    event.preventDefaulr();
+    let sendData={
+      titleBook:event.target.bTitle.value,
+   descripBook:event.target.bdescrip.value,
+   emailBook:this.state.authUser
+  }
+  let bookID=this.state.selectedBook._id
+   let bookData=await axios.put(`${process.env.REACT_APP_BACKEND_URL}updateBook/${bookID}`,sendData)
+   this.setState({
+        showBook: bookData.data
+      })
+  }
 
   render() {
     const { user, isAuthenticated } = this.props.auth0;
