@@ -88,11 +88,15 @@ console.log(deletUrl);
   }
   updataInfo=async(event)=>{
     event.preventDefault();
+    console.log(this.state.authUser,"authUser");
+    console.log(this.state.selectedBook._id,"this.state.selectedBook._id");
+
     let sendData={
-      titleBook:event.target.bTitle.value,
-   descripBook:event.target.bdescrip.value,
-   emailBook:this.state.authUser
+      title:event.target.bTitle.value,
+      description:event.target.bdescrip.value,
+      email:this.state.authUser
   }
+  console.log(event.target.bTitle.value,"event.target.bTitle.value result");
   let bookID=this.state.selectedBook._id
    let bookData=await axios.put(`${process.env.REACT_APP_BACKEND_URL}updateBook/${bookID}`,sendData)
    this.setState({

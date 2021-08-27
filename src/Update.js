@@ -14,9 +14,9 @@ class Update extends React.Component {
     <Form.Control type="text" name="bdescrip" placeholder="description" />
     </Form.Group>
    
-  {/* <Button variant="primary" type="submit">
+  <Button variant="primary" type="submit">
     Submit
-  </Button> */}
+   </Button>
 </Form>
  
             </div>
