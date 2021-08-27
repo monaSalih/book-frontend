@@ -110,7 +110,7 @@ console.log(deletUrl);
   }
 ////////////** */
   render() {
-    const { user, isAuthenticated } = this.props.auth0;
+    // const { user, isAuthenticated } = this.props.auth0;
     return (
       <Jumbotron>
         <AddBook newBook={this.newBook} />

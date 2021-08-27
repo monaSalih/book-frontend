@@ -3,7 +3,7 @@ import Header from './Header';
 // import IsLoadingAndError from './IsLoadingAndError';
 import BestBooks from './BestBooks'
 import Login from './Login'
-import BestsBooks from './BestBooks'
+// import BestsBooks from './BestBooks'
 import Profile from './Profile'
 import Footer from './Footer';
 import { withAuth0 } from '@auth0/auth0-react';
