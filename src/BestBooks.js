@@ -3,10 +3,10 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import AddBook from './AddBook.js'
-import { Card, Row, Button } from 'react-bootstrap';
+import { Card, Row, Button,Modal } from 'react-bootstrap';
 import { withAuth0 } from '@auth0/auth0-react';
 import './BestBooks.css';
-// import Update from './Update.js';
+import Update from './Update.js';
 
 class MyFavoriteBooks extends React.Component {
   constructor(props) {
@@ -14,8 +14,8 @@ class MyFavoriteBooks extends React.Component {
     this.state = {
       showBook: [],
       authUser: {},
-      // selectedBook:{},
-      // showUpdateForm:false
+      selectedBook:{},
+      showUpdateForm:false
 
     }
   }
@@ -74,29 +74,41 @@ console.log(deletUrl);
 
 
   /////////**udating */
-  // updateData=async(bookId)=>{
-  //   let chooseBook=this.state.showBook.find(book=>{
-  //     return book._id===  bookId  })
-  //     console.log(chooseBook);
-  //     this.setState({
-  //       selectedBook:chooseBook,
-  //       showUpdateForm:true
-  //     })
-  // }
-  // updataInfo=async(event)=>{
-  //   event.preventDefaulr();
-  //   let sendData={
-  //     titleBook:event.target.bTitle.value,
-  //  descripBook:event.target.bdescrip.value,
-  //  emailBook:this.state.authUser
-  // }
-  // let bookID=this.state.selectedBook._id
-  //  let bookData=await axios.put(`${process.env.REACT_APP_BACKEND_URL}updateBook/${bookID}`,sendData)
-  //  this.setState({
-  //       showBook: bookData.data
-  //     })
-  // }
+  updateData=async(bookId)=>{
+    await this.setState({
+      showUpdateForm:false,
+    })
+    let chooseBook=this.state.showBook.find(book=>{
+      return book._id===  bookId  })
+      console.log(chooseBook);
+      this.setState({
+        selectedBook:chooseBook,
+        showUpdateForm:true
+      })
+  }
+  updataInfo=async(event)=>{
+    event.preventDefault();
+    console.log(this.state.authUser,"authUser");
+    console.log(this.state.selectedBook._id,"this.state.selectedBook._id");
 
+    let sendData={
+      title:event.target.bTitle.value,
+      description:event.target.bdescrip.value,
+      email:this.state.authUser
+  }
+  console.log(event.target.bTitle.value,"event.target.bTitle.value result");
+  let bookID=this.state.selectedBook._id
+   let bookData=await axios.put(`${process.env.REACT_APP_BACKEND_URL}updateBook/${bookID}`,sendData)
+   this.setState({
+        showBook: bookData.data
+      })
+  }
+  closehandl=()=>{
+    this.setState({
+      showUpdateForm:false
+    })
+  }
+////////////** */
   render() {
     const { user, isAuthenticated } = this.props.auth0;
     return (
@@ -117,7 +129,7 @@ console.log(deletUrl);
                   Book email:{item.email}
                 </Card.Text>
                 <Button variant="danger" onClick={()=>{this.deletBook(item._id)}}>Delete</Button>
-                <Button variant="danger" >update</Button>
+                <Button variant="outline-warning" onClick={()=>this.updateData(item._id)}>update</Button>
               {/* <Update updateData={this.updateData}/> */}
 
               </Card.Body>
@@ -129,12 +141,27 @@ console.log(deletUrl);
 
         </Row>
         {/* pop up form */}
-        {/* {this.state.showUpdateForm && 
+        {this.state.showUpdateForm &&
+        <Modal.Dialog >
+  <Modal.Header closeButton>
+    <Modal.Title>Update Form</Modal.Title>
+  </Modal.Header>
+         
         <Update
         bookUpDate={this.state.selectedBook}
-        />}
-       */}
+        showUpdateForm={this.state.showUpdateForm}
+        closehandl={this.handleClose}
+        updataInfo={this.updataInfo}
+        selectedBook={this.props.updateData}
+        />
+        <Modal.Footer>
+    <Button variant="secondary" onClick={()=>this.closehandl()}>Close</Button>
+   {/* Button variant="primary">Save changes</Button> */}
+  </Modal.Footer>
+</Modal.Dialog>
+    } 
       </Jumbotron>
+      
     )
 
   }

@@ -16,7 +16,7 @@ class Update extends React.Component {
    
   <Button variant="primary" type="submit">
     Submit
-  </Button>
+   </Button>
 </Form>
  
             </div>
